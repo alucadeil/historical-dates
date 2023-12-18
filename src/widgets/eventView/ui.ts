@@ -27,6 +27,7 @@ export const MainContainer = styled.div`
   }
   
   @media (max-width: 450px) {
+    height: 100vh;
     padding: 2rem 0 .5rem;
 
     &::before {

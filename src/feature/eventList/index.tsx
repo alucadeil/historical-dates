@@ -2,11 +2,13 @@ import Event from 'entity/event';
 import { Container } from './ui';
 import { gsap } from 'gsap';
 import ArrowButton from 'entity/arrowButton';
-import { useLayoutEffect, useRef } from 'react';
-import { Swiper } from 'swiper/react';
+import { EventsContext } from 'shared/context';
+import { useContext, useEffect, useLayoutEffect, useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { swiperParams } from './model';
 
 const EventList = () => {
+  const { activeEventsRange } = useContext(EventsContext);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const contextRef = useRef<gsap.Context | null>(null);
@@ -28,7 +30,7 @@ const EventList = () => {
         display: 'flex',
         duration: 1,
       })
-  }, [])
+  }, [activeEventsRange])
 
   return (
     <Container ref={containerRef}>
@@ -40,6 +42,11 @@ const EventList = () => {
         spaceBetween={swiperParams.slidesPerView}
         breakpoints={swiperParams.breakpoints}
       >
+        {activeEventsRange?.events?.map((event) => (
+          <SwiperSlide key={event.eventId} >
+            <Event event={event} />
+          </SwiperSlide>
+        ))}
       </Swiper>
       <ArrowButton className="next" />
     </Container>
